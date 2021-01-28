@@ -3,6 +3,7 @@ package sysImplementation;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Student {
 	private int id, totalCumulativeCredits;
@@ -19,8 +20,7 @@ public class Student {
 		coursesRegistered = new HashMap<String, HashMap<String, ArrayList<Course>>>();
 	}
 
-	public boolean registerForCourse(String name, int credits, String semester,
-			String year) {
+	public boolean registerForCourse(String name, int credits, String semester, String year) {
 		Course newCourse = new Course(name, credits);
 
 		if (this.coursesRegistered.size() == 0) {
@@ -31,8 +31,7 @@ public class Student {
 			coursesRegistered.put(semester, temp);
 		} else {
 
-			ArrayList<Course> registeredList = coursesRegistered.get(semester)
-					.get(year);
+			ArrayList<Course> registeredList = coursesRegistered.get(semester).get(year);
 			if (!registeredList.contains(newCourse)) {
 				registeredList.add(newCourse);
 			} else {
@@ -47,8 +46,7 @@ public class Student {
 	public boolean completeCourses(String semester, String year) {
 
 		if (this.coursesRegistered.containsKey(semester)) {
-			ArrayList<Course> temp = this.coursesRegistered.get(semester)
-					.get(year);
+			ArrayList<Course> temp = this.coursesRegistered.get(semester).get(year);
 
 			if (this.coursesCompleted.containsKey(semester)) {
 				this.coursesCompleted.get(semester).put(year, temp);
@@ -66,8 +64,7 @@ public class Student {
 
 	}
 
-	public boolean setGrades(String semester, String year, String courseName,
-			char grade) {
+	public boolean setGrades(String semester, String year, String courseName, char grade) {
 
 		ArrayList<Course> list = this.coursesRegistered.get(semester).get(year);
 
@@ -81,8 +78,26 @@ public class Student {
 		return false;
 	}
 
-	public void generateTranscript() {
+	public String generateTranscript() {
+		String transcript = "";
+		transcript += "Name: " + this.getName() + "\n";
+		transcript += "Major: " + this.getMajor() + "\n\n";
 
+		for (Entry semester : this.getCoursesCompleted().entrySet()) {
+			transcript += "***** " + semester.getKey() + " ";
+			Map<String, ArrayList<Course>> map = this.getCoursesCompleted().get(semester.getKey());
+			for (Entry year : map.entrySet()) {
+			transcript += year.getKey() + " *****\n";
+			ArrayList<Course> courseList = map.get(year.getKey());
+			for(int i = 0; i < courseList.size(); i++) {
+				transcript += courseList.get(i).toString() + "\n";
+			}
+			
+			}
+
+		}
+		
+		return transcript;
 	}
 
 	/***************************

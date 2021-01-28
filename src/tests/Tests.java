@@ -21,14 +21,15 @@ public class Tests {
 		student.completeCourses("Spring", "2021");
 		
 		
+		 System.out.println(student.generateTranscript());
 
-		System.out.println(student.getName());
+		//System.out.println(student.getName());
 		//System.out.println(student.getCoursesRegistered());
-	 ArrayList<Course> list =	student.getCoursesCompleted().get("Spring").get("2021");
-	 for(int i = 0; i < list.size(); i++) {
-		 Course item = list.get(i);
-		 System.out.println(item.toString());
-	 }
+	 //ArrayList<Course> list =	student.getCoursesCompleted().get("Spring").get("2021");
+	// for(int i = 0; i < list.size(); i++) {
+	// Course item = list.get(i);
+		// System.out.println(item.toString());
+	// }
 
 
 		
