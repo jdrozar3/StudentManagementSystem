@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 public class Student {
 	private int id, totalCumulativeCredits = 0;
 	private String name, major;
-	private double gpa;
+	private double gpa = 0;
 	private HashMap<String, HashMap<String, ArrayList<Course>>> coursesCompleted;
 	private HashMap<String, HashMap<String, ArrayList<Course>>> coursesRegistered;
 
@@ -79,7 +79,7 @@ public class Student {
 	}
 
 	public String generateTranscript() {
-
+		int numOfCourses = 0;
 		String transcript = "";
 		transcript += "Name: " + this.getName() + " (" + this.getId() + ")" + "\n";
 		transcript += "Major: " + this.getMajor() + "\n\n";
@@ -90,9 +90,22 @@ public class Student {
 			for (Entry<String, ArrayList<Course>> year : map.entrySet()) {
 				transcript += year.getKey() + " *****\n";
 				ArrayList<Course> courseList = map.get(year.getKey());
+				numOfCourses += courseList.size();
 				for (int i = 0; i < courseList.size(); i++) {
-					transcript += courseList.get(i).toString() + "\n";
-					this.totalCumulativeCredits += courseList.get(i).getCredits();
+					Course course = courseList.get(i);
+					transcript += course.toString() + "\n";
+					this.totalCumulativeCredits += course.getCredits();
+					if (course.getGrade() == 'A') {
+						this.gpa += 4;
+					} else if (course.getGrade() == 'B') {
+						this.gpa += 3;
+					} else if (course.getGrade() == 'C') {
+						this.gpa += 2;
+					} else if (course.getGrade() == 'D') {
+						this.gpa += 1;
+					} else {
+						// do nothing
+					}
 				}
 
 			}
@@ -100,7 +113,7 @@ public class Student {
 
 		}
 		transcript += "Total Cumulative Credits: " + this.totalCumulativeCredits + "\n";
-
+		transcript += "GPA: " + String.format("%.2f", (this.gpa / numOfCourses)) + "\n";
 
 		return transcript;
 	}
@@ -142,14 +155,5 @@ public class Student {
 	}
 
 	/*************** PRIVATE METHODS ******************/
-	private void updateCumulativeGpa() {
-		for (Entry<String, HashMap<String, ArrayList<Course>>> semester : 
-			this.getCoursesCompleted().entrySet()) {
-			
-			
-		
-		}
-	}
 
-	
 }
