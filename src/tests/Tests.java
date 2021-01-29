@@ -20,6 +20,13 @@ public class Tests {
 		student.setGrades("Spring", "2021", "CMSC132", 'B');
 		student.completeCourses("Spring", "2021");
 		
+		student.registerForCourse("CMSC330", 3, "Summer", "2021");
+		student.registerForCourse("CMSC351", 3, "Summer", "2021");
+		student.setGrades("Summer", "2021", "CMSC330", 'A');
+		student.setGrades("Summer", "2021", "CMSC351", 'A');
+		student.completeCourses("Summer", "2021");
+
+		
 		
 		 System.out.println(student.generateTranscript());
 

@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 public class Student {
-	private int id, totalCumulativeCredits;
+	private int id, totalCumulativeCredits = 0;
 	private String name, major;
 	private double gpa;
 	private HashMap<String, HashMap<String, ArrayList<Course>>> coursesCompleted;
@@ -79,24 +79,29 @@ public class Student {
 	}
 
 	public String generateTranscript() {
+
 		String transcript = "";
-		transcript += "Name: " + this.getName() + "\n";
+		transcript += "Name: " + this.getName() + " (" + this.getId() + ")" + "\n";
 		transcript += "Major: " + this.getMajor() + "\n\n";
 
-		for (Entry semester : this.getCoursesCompleted().entrySet()) {
+		for (Entry<String, HashMap<String, ArrayList<Course>>> semester : this.getCoursesCompleted().entrySet()) {
 			transcript += "***** " + semester.getKey() + " ";
 			Map<String, ArrayList<Course>> map = this.getCoursesCompleted().get(semester.getKey());
-			for (Entry year : map.entrySet()) {
-			transcript += year.getKey() + " *****\n";
-			ArrayList<Course> courseList = map.get(year.getKey());
-			for(int i = 0; i < courseList.size(); i++) {
-				transcript += courseList.get(i).toString() + "\n";
+			for (Entry<String, ArrayList<Course>> year : map.entrySet()) {
+				transcript += year.getKey() + " *****\n";
+				ArrayList<Course> courseList = map.get(year.getKey());
+				for (int i = 0; i < courseList.size(); i++) {
+					transcript += courseList.get(i).toString() + "\n";
+					this.totalCumulativeCredits += courseList.get(i).getCredits();
+				}
+
 			}
-			
-			}
+			transcript += "\n";
 
 		}
-		
+		transcript += "Total Cumulative Credits: " + this.totalCumulativeCredits + "\n";
+
+
 		return transcript;
 	}
 
@@ -138,11 +143,13 @@ public class Student {
 
 	/*************** PRIVATE METHODS ******************/
 	private void updateCumulativeGpa() {
-
+		for (Entry<String, HashMap<String, ArrayList<Course>>> semester : 
+			this.getCoursesCompleted().entrySet()) {
+			
+			
+		
+		}
 	}
 
-	private void updateTotalCredits() {
-
-	}
-
+	
 }
